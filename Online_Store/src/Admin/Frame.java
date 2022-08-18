@@ -7,20 +7,18 @@ import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
+import java.text.SimpleDateFormat;  
 
 public class Frame extends JFrame implements ActionListener{
 	
 	JPanel text_intro = new JPanel();
+	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
 	JPanel fpanel = new JPanel();
 	JPanel controls_categories = new JPanel();
 	JPanel controls_products = new JPanel();
 	JPanel test = new JPanel();
 	JPanel text_intro_products = new JPanel();
-	
-	ArrayList <JPanel> apcategories = new ArrayList<JPanel>();
-	ArrayList <JButton> abcategories = new ArrayList<JButton>();
-	ArrayList <JButton> abcancel = new ArrayList<JButton>();
-	
 	
 	JLabel label_categories = new JLabel("Categories");
 	JLabel label_products = new JLabel("Products");
@@ -52,9 +50,9 @@ public class Frame extends JFrame implements ActionListener{
 		text_intro.setMaximumSize(new Dimension(800,30));
 		new_category.addActionListener(this);
 		
-		for(int i = 0 ; i < apcategories.size() ; i++) {
-			fpanel.add(apcategories.get(i));
-			abcancel.get(i).addActionListener(this);
+		for(int i = 0 ; i < acategories.size() ; i++) {
+			fpanel.add(acategories.get(i).pcategory);
+			acategories.get(i).bcancel.addActionListener(this);
 		}
 		
 		fpanel.add(text_intro);
@@ -78,25 +76,50 @@ public class Frame extends JFrame implements ActionListener{
 			acategories.get(selected_category).add_product(product);
 			fpanel.add(acategories.get(selected_category).get_panel_at(acategories.get(selected_category).size_products() - 1));
 			acategories.get(selected_category).get_cancel_button(acategories.get(selected_category).size_products() - 1).addActionListener(this);
+			acategories.get(selected_category).get_stock_button(acategories.get(selected_category).size_products() - 1).addActionListener(this);
+			acategories.get(selected_category).get_details_button(acategories.get(selected_category).size_products() - 1).addActionListener(this);
+			SwingUtilities.updateComponentTreeUI(this);
 		}
 		
 		for(int i = 0; i < acategories.get(selected_category).size_products() ; i++) {
 			if(e.getSource() == acategories.get(selected_category).get_cancel_button(i)) {
 				fpanel.remove(acategories.get(selected_category).get_panel_at(i));
 				acategories.get(selected_category).delete_product(i);
+				SwingUtilities.updateComponentTreeUI(this);
 			}
-		}
+			
+			if(acategories.get(selected_category).size_products() != 0 ) {
+				if (e.getSource() == acategories.get(selected_category).get_stock_button(i)) {
+					String number = JOptionPane.showInputDialog("Insert a number");
+				while (number.matches("[0-9]+") == false) {
+					number = JOptionPane.showInputDialog("Insert a number");
+				}
+				int num = 0;
+				 try{
+					 num = Integer.parseInt(number);
+			        }
+			        catch (NumberFormatException ex){
+			            ex.printStackTrace();
+			        }
+				 	acategories.get(selected_category).add_stock(num, i);
+				 	acategories.get(selected_category).getProduct(i).setstock();
+				 	acategories.get(selected_category).getProduct(i).setDateStock();
+				}
+				if (e.getSource() == acategories.get(selected_category).get_details_button(i)) {
+					 JOptionPane.showMessageDialog(null, "CEVA SMBPL",getTitle(), JOptionPane.INFORMATION_MESSAGE) ;
+					}
+				}
+			}
 		
-		for(int i  = 0 ; i < abcategories.size() ; i++) {
-			if(e.getSource() == abcategories.get(i)) {
+		for(int i  = 0 ; i < acategories.size() ; i++) {
+			if(e.getSource() == acategories.get(i).bcategory) {
 				selected_category = i;
 				select_category();
+				SwingUtilities.updateComponentTreeUI(this);
 			}
-			if(e.getSource() == abcancel.get(i)) {
-				fpanel.remove(apcategories.get(i));
-				apcategories.remove(i);
-				abcancel.remove(i);
-				abcategories.remove(i);
+			if(e.getSource() == acategories.get(i).bcancel) {
+				fpanel.remove(acategories.get(i).pcategory);
+				acategories.remove(i);
 				SwingUtilities.updateComponentTreeUI(this);
 			}
 		}
@@ -105,17 +128,9 @@ public class Frame extends JFrame implements ActionListener{
 	public void add_category() {
 		String category = JOptionPane.showInputDialog("New name for category");
 		acategories.add(new Categories(category));
-		apcategories.add(new JPanel());
-		abcancel.add(new JButton("X"));
-		abcategories.add(new JButton(acategories.get(acategories.size() - 1).getName()));
-		abcategories.get(abcategories.size() - 1).addActionListener(this);
-		abcancel.get(abcancel.size() - 1).addActionListener(this);
-		apcategories.get(apcategories.size() - 1).setLayout(new BorderLayout());
-		apcategories.get(apcategories.size() - 1).add(abcategories.get(abcategories.size() - 1),BorderLayout.CENTER);
-		apcategories.get(apcategories.size() - 1).add(abcancel.get(abcancel.size() - 1),BorderLayout.EAST);
-		apcategories.get(apcategories.size() - 1).setMaximumSize(new Dimension(800,30));
-		apcategories.get(apcategories.size() - 1).setBackground(Color.YELLOW);
-		fpanel.add(apcategories.get(apcategories.size() - 1));
+		fpanel.add(acategories.get(acategories.size() - 1).pcategory);
+		acategories.get(acategories.size() - 1).bcancel.addActionListener(this);
+		acategories.get(acategories.size() - 1).bcategory.addActionListener(this);
 		SwingUtilities.updateComponentTreeUI(this);
 	}
 	

@@ -1,28 +1,60 @@
 package Admin;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import javax.security.auth.login.AppConfigurationEntry;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Products {
+	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	private String name;
 	private int count = 0;
-	public JButton bproduct;
+	private String dstock ;
+	private String dseeDate ;
+	private int sales = 0;
+	public JLabel lproduct;
 	public JPanel pproduct;
 	public JButton bcancel;
+	public JButton details;
+	public JButton add_stock;
+	public JPanel pcontrols = new JPanel();
+	public JLabel stock = new JLabel();
+	public Date date = new Date();
 	
 	public Products(String name) {
 		this.name = name;
 		this.count = count;
-		this.bproduct = new JButton(name);
+		this.lproduct = new JLabel(name + "->" + this.count + "item(s) left");
 		this.pproduct = new JPanel();
 		this.bcancel = new JButton("X");
-		this.pproduct.setLayout(new BorderLayout());
+		this.details = new JButton("Details");
+		this.add_stock = new JButton("Stock-in");
+		this.pproduct.setLayout(new GridLayout(1,2));
 		this.pproduct.setMaximumSize(new Dimension(800,30));
-		this.pproduct.add(bcancel,BorderLayout.EAST);
-		this.pproduct.add(bproduct,BorderLayout.CENTER);
+		this.lproduct.setFont(new Font("Serif", Font.PLAIN, 14));
+		this.lproduct.setHorizontalAlignment(JLabel.CENTER);
+		this.pproduct.setBackground(Color.YELLOW);
+		this.pcontrols.setLayout(new GridLayout(1,4));
+		this.stock.setFont(new Font("Serif", Font.PLAIN, 14));
+		this.stock.setHorizontalAlignment(JLabel.CENTER);
+		this.pcontrols.setBackground(Color.YELLOW);
+		
+		setstock();
+		
+		this.pcontrols.add(stock);
+		this.pcontrols.add(details);
+		this.pcontrols.add(add_stock);
+		this.pcontrols.add(bcancel);
+		
+		
+		this.pproduct.add(lproduct,BorderLayout.CENTER);
+		this.pproduct.add(pcontrols);
+		
+
 	}
 	
 	public String getName() {
@@ -39,5 +71,46 @@ public class Products {
 	
 	public void changeCount(int newcount) {
 	this.count = newcount;
+	}
+	
+	public void addCount(int addcount) {
+		this.count += addcount;
+	}
+	
+	public int getSales () {
+		return this.sales;
+	}
+	
+	public void addSales(int adding) {
+		this.sales += adding;
+	}
+	
+	public void setDateStock() {
+		this.dstock = formatter.format(date);
+	}
+	
+	public String getDateStock() {
+		return this.dstock;
+	}
+	
+	public void setDatesee() {
+		this.dseeDate = formatter.format(date);
+	}
+	
+	public String getDatesee() {
+		return this.dseeDate;
+	}
+	
+	
+	public void setstock() {
+		if(this.count == 0) {
+			stock.setText("No stock");
+			stock.setForeground(Color.RED);
+		}
+		else {
+			stock.setText("In stock");
+			stock.setForeground(Color.GREEN);
+		}
+		lproduct.setText(name + "->" + this.count + "item(s) left");
 	}
 }

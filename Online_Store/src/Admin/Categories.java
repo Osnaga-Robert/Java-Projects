@@ -1,5 +1,8 @@
 package Admin;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -8,9 +11,19 @@ import javax.swing.JPanel;
 public class Categories {
 	private String name;
 	private ArrayList <Products> products = new ArrayList <Products> ();
+	public JPanel pcategory;
+	public JButton bcategory;
+	public JButton bcancel;
 	
 	public Categories(String name) {
 		this.name = name;
+		this.pcategory = new JPanel();
+		this.bcancel = new JButton("X");
+		this.bcategory = new JButton(name);//+ " " + this.products.get(this.products.size() - 1).getCount() + "item(s) left");
+		this.pcategory.setLayout(new BorderLayout());
+		this.pcategory.add(this.bcategory,BorderLayout.CENTER);
+		this.pcategory.add(this.bcancel,BorderLayout.EAST);
+		this.pcategory.setMaximumSize(new Dimension(800,30));
 	}
 	
 	public String getName() {
@@ -42,5 +55,21 @@ public class Categories {
 	
 	public void delete_product (int i) {
 		products.remove(i);
+	}
+	
+	public JButton get_stock_button(int i) {
+		return products.get(i).add_stock;
+	}
+	
+	public JButton get_details_button(int i) {
+		return products.get(i).details;
+	}
+	
+	public void add_stock(int number, int i) {
+		products.get(i).addCount(number);
+	}
+	
+	public Products getProduct(int i) {
+		return products.get(i);
 	}
 }
