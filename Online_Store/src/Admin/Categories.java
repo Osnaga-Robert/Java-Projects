@@ -57,12 +57,12 @@ public class Categories {
 		products.remove(i);
 	}
 	
-	public JButton get_stock_button(int i) {
-		return products.get(i).add_stock;
-	}
-	
 	public JButton get_details_button(int i) {
 		return products.get(i).details;
+	}
+	
+	public JButton get_stock_button(int i) {
+		return products.get(i).add_stock;
 	}
 	
 	public void add_stock(int number, int i) {

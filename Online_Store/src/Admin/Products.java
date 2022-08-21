@@ -86,7 +86,7 @@ public class Products {
 	}
 	
 	public void setDateStock() {
-		this.dstock = formatter.format(date);
+		this.dstock = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
 	}
 	
 	public String getDateStock() {
@@ -94,7 +94,7 @@ public class Products {
 	}
 	
 	public void setDatesee() {
-		this.dseeDate = formatter.format(date);
+		this.dseeDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
 	}
 	
 	public String getDatesee() {
@@ -113,4 +113,5 @@ public class Products {
 		}
 		lproduct.setText(name + "->" + this.count + "item(s) left");
 	}
+	
 }
