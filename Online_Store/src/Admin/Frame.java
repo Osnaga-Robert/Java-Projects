@@ -8,7 +8,10 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
-import java.text.SimpleDateFormat;  
+import java.text.SimpleDateFormat;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class Frame extends JFrame implements ActionListener{
 	
@@ -36,9 +39,25 @@ public class Frame extends JFrame implements ActionListener{
 	JComboBox<String> search_bar_categories = new JComboBox<String>();
 	JComboBox<String> search_bar_products = new JComboBox<String>();
 	
+	ImageIcon plus = new ImageIcon("Icons/Plus.png");
+	Image image = plus.getImage(); // transform it 
+	Image newimg = image.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
+	
+	ImageIcon details = new ImageIcon("Icons/details.png");
+	ImageIcon stock_img = new ImageIcon("Icons/Add_stock_img.png");
+	
 	int selected_category = 0;
 	
 	Frame(){
+		plus = new ImageIcon(newimg);
+		image = details.getImage();
+		newimg = image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		details = new ImageIcon(newimg);
+		
+		image = stock_img.getImage();
+		newimg = image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		stock_img = new ImageIcon(newimg);
+		
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(800,800);
@@ -99,7 +118,7 @@ public class Frame extends JFrame implements ActionListener{
 			add_category();
 		}
 		if(e.getSource() == new_product) {
-			String product = JOptionPane.showInputDialog("New name for product");
+			String product = (String) JOptionPane.showInputDialog(null, "New name for product", "Add product", JOptionPane.OK_CANCEL_OPTION,plus , null, 0);
 			if((product != null) && (product.length() > 0) && (product.charAt(0) != ' ')) {
 				if(check_products(product) == false) {
 					acategories.get(selected_category).add_product(product);
@@ -130,38 +149,40 @@ public class Frame extends JFrame implements ActionListener{
 		}
 	if(acategories.size() != 0) {
 		for(int i = 0; i < acategories.get(selected_category).size_products() ; i++) {
+			if(acategories.get(selected_category).size_products() != 0 ) {
+				if (e.getSource() == acategories.get(selected_category).get_stock_button(i)) {
+					String number =(String) JOptionPane.showInputDialog(null,"Insert a number","Add stock",JOptionPane.OK_CANCEL_OPTION,stock_img,null,0);
+					//String product = (String) JOptionPane.showInputDialog(null, "New name for product", "Add product", JOptionPane.OK_CANCEL_OPTION,plus , null, 0);
+					if(number != null) {
+							while (number.matches("[0-9]+") == false) {
+									number = JOptionPane.showInputDialog("Insert a number");
+							}
+							int num = 0;
+							try{
+								num = Integer.parseInt(number);
+							}
+							catch (NumberFormatException ex){
+								ex.printStackTrace();
+							}
+							acategories.get(selected_category).add_stock(num, i);
+							acategories.get(selected_category).getProduct(i).setstock();
+							acategories.get(selected_category).getProduct(i).setDateStock();
+					}
+				}
+				if (e.getSource() == acategories.get(selected_category).get_details_button(i)) {
+					 JOptionPane.showOptionDialog(null, "Stock: " + acategories.get(selected_category).getProduct(i).getCount() + "item(s) left \n"
+					 											+ "Sales: " + acategories.get(selected_category).getProduct(i).getSales() + "item(s) sold \n"
+					 											+ "Last time adding stock: " + acategories.get(selected_category).getProduct(i).getDateStock() + " \n"
+					 											+ "Last time see details: " + acategories.get(selected_category).getProduct(i).getDatesee() + " \n","Details", JOptionPane.DEFAULT_OPTION ,JOptionPane.INFORMATION_MESSAGE, details, null, null) ;
+					 acategories.get(selected_category).getProduct(i).setDatesee();
+					}
+				}
 			if(e.getSource() == acategories.get(selected_category).get_cancel_button(i)) {
 				fpanel.remove(acategories.get(selected_category).get_panel_at(i));
 				search_bar_products.removeItem(acategories.get(selected_category).getProduct(i).getName());
 				search_bar_categories.removeItem(acategories.get(selected_category).getProduct(i).getName());
 				acategories.get(selected_category).delete_product(i);
 				SwingUtilities.updateComponentTreeUI(this);
-			}
-			
-			if(acategories.get(selected_category).size_products() != 0 ) {
-				if (e.getSource() == acategories.get(selected_category).get_stock_button(i)) {
-					String number = JOptionPane.showInputDialog("Insert a number");
-				while (number.matches("[0-9]+") == false) {
-					number = JOptionPane.showInputDialog("Insert a number");
-				}
-				int num = 0;
-				 try{
-					 num = Integer.parseInt(number);
-			        }
-			        catch (NumberFormatException ex){
-			            ex.printStackTrace();
-			        }
-				 	acategories.get(selected_category).add_stock(num, i);
-				 	acategories.get(selected_category).getProduct(i).setstock();
-				 	acategories.get(selected_category).getProduct(i).setDateStock();
-				}
-				if (e.getSource() == acategories.get(selected_category).get_details_button(i)) {
-					 JOptionPane.showOptionDialog(null, "Stock: " + acategories.get(selected_category).getProduct(i).getCount() + "item(s) left \n"
-					 											+ "Sales: " + acategories.get(selected_category).getProduct(i).getSales() + "item(s) sold \n"
-					 											+ "Last time adding stock: " + acategories.get(selected_category).getProduct(i).getDateStock() + " \n"
-					 											+ "Last time see details: " + acategories.get(selected_category).getProduct(i).getDatesee() + " \n","Details", JOptionPane.DEFAULT_OPTION ,JOptionPane.INFORMATION_MESSAGE, null, null, null) ;
-						 acategories.get(selected_category).getProduct(i).setDatesee();
-					}
 				}
 			}
 	}
@@ -192,10 +213,22 @@ public class Frame extends JFrame implements ActionListener{
 				}
 			}
 		}
+		if(e.getSource() == search_bar_products) {
+			String nameString = (String) search_bar_products.getSelectedItem();
+			for(int i = 0 ; i < acategories.get(selected_category).size_products() ; i++) {
+				if(acategories.get(selected_category).getProduct(i).getName().equals(nameString)) {
+					JOptionPane.showOptionDialog(null, "Stock: " + acategories.get(selected_category).getProduct(i).getCount() + "item(s) left \n"
+								+ "Sales: " + acategories.get(selected_category).getProduct(i).getSales() + "item(s) sold \n"
+								+ "Last time adding stock: " + acategories.get(selected_category).getProduct(i).getDateStock() + " \n"
+								+ "Last time see details: " + acategories.get(selected_category).getProduct(i).getDatesee() + " \n","Details", JOptionPane.DEFAULT_OPTION ,JOptionPane.INFORMATION_MESSAGE, details, null, null) ;
+					acategories.get(selected_category).getProduct(i).setDatesee();
+				}
+			}
+		}
 	}
 	
 	public void add_category() {
-		String category = JOptionPane.showInputDialog("New name for category");
+		String category = (String)JOptionPane.showInputDialog(null,"New name for category","New category",JOptionPane.OK_CANCEL_OPTION,plus,null,0);
 		if((category != null) && (category.length() > 0) && (category.charAt(0) != ' ')) {
 			if(check_categoeies(category) == false) {
 				acategories.add(new Categories(category));
@@ -216,7 +249,7 @@ public class Frame extends JFrame implements ActionListener{
 		text_intro_products.add(back,BorderLayout.WEST);
 		//label_products.add(Box.createHorizontalGlue());
 		text_intro_products.add(label_products,BorderLayout.CENTER);
-		
+		label_products.setText("Categories->" + acategories.get(selected_category).getName());
 		fpanel.add(text_intro_products);
 		fpanel.add(controls_products);
 		
@@ -239,9 +272,11 @@ public class Frame extends JFrame implements ActionListener{
 	}
 	
 	public boolean check_products(String name) {
-		for(int i = 0 ; i < acategories.get(selected_category).size_products(); i++) {
-			if(acategories.get(selected_category).getProduct(i).getName().equals(name)) {
-				return true;
+		for(int i = 0 ; i < acategories.size(); i++) {
+			for(int j = 0 ; j < acategories.get(i).size_products(); j++) {
+				if(acategories.get(i).getProduct(j).getName().equals(name)) {
+					return true;
+				}
 			}
 		}
 		return false;
