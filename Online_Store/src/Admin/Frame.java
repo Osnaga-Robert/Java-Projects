@@ -7,6 +7,14 @@ import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.security.PublicKey;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Timer;
@@ -61,7 +69,70 @@ public class Frame extends JFrame implements ActionListener{
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(800,800);
+		this.addWindowListener(new WindowListener() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				try {
+				FileOutputStream fos = new FileOutputStream("savings/save.ser");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				oos.writeObject(acategories);
+				oos.close();
+				fos.close();
+			}
+			catch(IOException ioe) {
+				ioe.printStackTrace();
+				return;
+			}
+			}
+			@Override
+			public void windowActivated(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void windowClosed(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void windowDeactivated(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void windowDeiconified(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void windowIconified(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+			
+			}
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
+		try {
+			FileInputStream fis = new FileInputStream("savings/save.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			acategories = (ArrayList) ois.readObject();
+			
+			ois.close();
+			fis.close();
+		}
+		catch(IOException ioe) {
+			ioe.printStackTrace();
+			return;
+		}
+		catch (ClassNotFoundException e) {
+			System.out.println("Class not found");
+			e.printStackTrace();
+			return;
+		}
 		controls_products.setMaximumSize(new Dimension(800,30));
 		controls_products.setLayout(new BoxLayout(controls_products,BoxLayout.LINE_AXIS));
 		text_intro_products.setLayout(new BorderLayout());
@@ -94,21 +165,36 @@ public class Frame extends JFrame implements ActionListener{
 		new_category.addActionListener(this);
 		new_category.setFocusable(false);
 		
-		for(int i = 0 ; i < acategories.size() ; i++) {
-			fpanel.add(acategories.get(i).pcategory);
-			acategories.get(i).bcancel.addActionListener(this);
-		}
 		
 		fpanel.add(text_intro);
 		fpanel.add(controls_categories);
 		text_intro.add(label_categories);
+		
+		for(int i = 0 ; i < acategories.size() ; i++) {
+			acategories.get(i).categories_panel();
+			fpanel.add(acategories.get(i).pcategory);
+			acategories.get(i).bcancel.addActionListener(this);
+			acategories.get(i).bcategory.addActionListener(this);
+			for(int j = 0 ; j < acategories.get(i).size_products() ; j++) {
+				acategories.get(i).getProduct(j).products_panel();
+				acategories.get(i).getProduct(j).bcancel.addActionListener(this);
+				acategories.get(i).getProduct(j).details.addActionListener(this);
+				acategories.get(i).getProduct(j).add_stock.addActionListener(this);
+				//search_bar_categories.addItem(acategories.get(i).getProduct(j).getName());
+			}
+		}
 		
 		controls_categories.add(new_category);
 		controls_categories.add(Box.createHorizontalGlue());
 		controls_categories.add(search_bar_categories);
 		this.getContentPane().add(scategories);
 		search_bar_categories.addItem("--Search a product--");
-		//SwingUtilities.updateComponentTreeUI(this);
+		for(int i = 0 ; i < acategories.size() ; i++) {
+			for(int j = 0 ; j < acategories.get(i).size_products() ; j++) {
+				search_bar_categories.addItem(acategories.get(i).getProduct(j).getName());
+			}
+		}
+		SwingUtilities.updateComponentTreeUI(this);
 	}
 
 	@Override
@@ -194,6 +280,7 @@ public class Frame extends JFrame implements ActionListener{
 				SwingUtilities.updateComponentTreeUI(this);
 			}
 			if(e.getSource() == acategories.get(i).bcancel) {
+				System.out.println("DAAA");
 				for(int j = 0 ; j < acategories.get(i).size_products() ; j++) {
 					search_bar_categories.removeItem(acategories.get(i).getProduct(j).getName());
 				}
@@ -280,6 +367,10 @@ public class Frame extends JFrame implements ActionListener{
 			}
 		}
 		return false;
+	}
+	
+	public void windowClosing(WindowEvent e) {
+		System.out.println("DAAA");
 	}
 	
 }

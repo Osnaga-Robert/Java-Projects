@@ -3,20 +3,24 @@ package Admin;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.Serializable;
 import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class Categories {
+public class Categories implements Serializable{
 	private String name;
 	private ArrayList <Products> products = new ArrayList <Products> ();
-	public JPanel pcategory;
-	public JButton bcategory;
-	public JButton bcancel;
+	transient public JPanel pcategory;
+	transient public JButton bcategory;
+	transient public JButton bcancel;
 	
 	public Categories(String name) {
 		this.name = name;
+		categories_panel();
+	}
+	
+	public void categories_panel() {
 		this.pcategory = new JPanel();
 		this.bcancel = new JButton("X");
 		this.bcategory = new JButton(name);//+ " " + this.products.get(this.products.size() - 1).getCount() + "item(s) left");

@@ -1,6 +1,7 @@
 package Admin;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -9,25 +10,33 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Products {
-	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+public class Products implements Serializable{
+	transient SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	private String name;
 	private int count = 0;
 	private String dstock ;
 	private String dseeDate ;
 	private int sales = 0;
-	public JLabel lproduct;
-	public JPanel pproduct;
-	public JButton bcancel;
-	public JButton details;
-	public JButton add_stock;
-	public JPanel pcontrols = new JPanel();
-	public JLabel stock = new JLabel();
-	public Date date = new Date();
+	transient public JLabel lproduct;
+	transient public JPanel pproduct;
+	transient public JButton bcancel;
+	transient public JButton details;
+	transient public JButton add_stock;
+	transient public JPanel pcontrols = new JPanel();
+	transient public JLabel stock = new JLabel();
+	transient public Date date = new Date();
 	
 	public Products(String name) {
 		this.name = name;
 		this.count = count;
+		products_panel();
+		
+
+	}
+	
+	public void products_panel() {
+		this.pcontrols = new JPanel();
+		this.stock = new JLabel();
 		this.lproduct = new JLabel(name + "->" + this.count + "item(s) left");
 		this.pproduct = new JPanel();
 		this.bcancel = new JButton("X");
@@ -53,8 +62,6 @@ public class Products {
 		
 		this.pproduct.add(lproduct,BorderLayout.CENTER);
 		this.pproduct.add(pcontrols);
-		
-
 	}
 	
 	public String getName() {
