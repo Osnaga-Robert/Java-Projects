@@ -1,4 +1,4 @@
-package Admin;
+package Objects;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,16 +17,23 @@ public class Categories implements Serializable{
 	
 	public Categories(String name) {
 		this.name = name;
-		categories_panel();
 	}
 	
-	public void categories_panel() {
+	public void categories_panel_admin() {
 		this.pcategory = new JPanel();
 		this.bcancel = new JButton("X");
 		this.bcategory = new JButton(name);//+ " " + this.products.get(this.products.size() - 1).getCount() + "item(s) left");
 		this.pcategory.setLayout(new BorderLayout());
 		this.pcategory.add(this.bcategory,BorderLayout.CENTER);
 		this.pcategory.add(this.bcancel,BorderLayout.EAST);
+		this.pcategory.setMaximumSize(new Dimension(800,30));
+	}
+	
+	public void categories_panel_user() {
+		this.pcategory = new JPanel();
+		this.bcategory = new JButton(name);
+		this.pcategory.setLayout(new BorderLayout());
+		this.pcategory.add(this.bcategory,BorderLayout.CENTER);
 		this.pcategory.setMaximumSize(new Dimension(800,30));
 	}
 	

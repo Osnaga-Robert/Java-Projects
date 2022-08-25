@@ -1,4 +1,4 @@
-package Admin;
+package Admin_options;
 
 public class Main {
 

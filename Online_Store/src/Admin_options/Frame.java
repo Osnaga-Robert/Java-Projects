@@ -1,10 +1,11 @@
-package Admin;
+package Admin_options;
 
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
+import Objects.Categories;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Timer;
 import java.util.TimerTask;
+import Objects.*;
 
 
 public class Frame extends JFrame implements ActionListener{
@@ -47,16 +49,25 @@ public class Frame extends JFrame implements ActionListener{
 	JComboBox<String> search_bar_categories = new JComboBox<String>();
 	JComboBox<String> search_bar_products = new JComboBox<String>();
 	
+	ImageIcon iframe = new ImageIcon("Icons/Jframe_icon.png");
 	ImageIcon plus = new ImageIcon("Icons/Plus.png");
 	Image image = plus.getImage(); // transform it 
 	Image newimg = image.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
 	
-	ImageIcon details = new ImageIcon("Icons/details.png");
+	ImageIcon details = new ImageIcon("Icons/Details.png");
 	ImageIcon stock_img = new ImageIcon("Icons/Add_stock_img.png");
 	
 	int selected_category = 0;
 	
 	Frame(){
+		resize_icons();
+		frame_settings();
+		get_input();
+		introduction();
+		settings_introduction();	
+	}
+	
+	public void resize_icons() {
 		plus = new ImageIcon(newimg);
 		image = details.getImage();
 		newimg = image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
@@ -65,15 +76,20 @@ public class Frame extends JFrame implements ActionListener{
 		image = stock_img.getImage();
 		newimg = image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
 		stock_img = new ImageIcon(newimg);
-		
+	}
+	
+	public void frame_settings() {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(800,800);
+		this.setResizable(false);
+		this.setIconImage(iframe.getImage());
+		this.setLocationRelativeTo(null);
 		this.addWindowListener(new WindowListener() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				try {
-				FileOutputStream fos = new FileOutputStream("savings/save.ser");
+				FileOutputStream fos = new FileOutputStream("Savings/Save.ser");
 				ObjectOutputStream oos = new ObjectOutputStream(fos);
 				oos.writeObject(acategories);
 				oos.close();
@@ -115,9 +131,11 @@ public class Frame extends JFrame implements ActionListener{
 				
 			}
 		});
-		
+	}
+	
+	public void get_input() {
 		try {
-			FileInputStream fis = new FileInputStream("savings/save.ser");
+			FileInputStream fis = new FileInputStream("Savings/Save.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			acategories = (ArrayList) ois.readObject();
 			
@@ -133,6 +151,9 @@ public class Frame extends JFrame implements ActionListener{
 			e.printStackTrace();
 			return;
 		}
+	}
+	
+	public void introduction() {
 		controls_products.setMaximumSize(new Dimension(800,30));
 		controls_products.setLayout(new BoxLayout(controls_products,BoxLayout.LINE_AXIS));
 		text_intro_products.setLayout(new BorderLayout());
@@ -143,7 +164,6 @@ public class Frame extends JFrame implements ActionListener{
 		back.setFocusable(false);
 		label_products.setHorizontalAlignment(JLabel.CENTER);
 		label_products.setFont(new Font("Serif", Font.PLAIN, 20));
-	
 		
 		controls_products.add(new_product);
 		controls_products.add(Box.createHorizontalGlue());
@@ -151,11 +171,9 @@ public class Frame extends JFrame implements ActionListener{
 		
 		search_bar_categories.addActionListener(this);
 		search_bar_products.addActionListener(this);
-		
-		first();	
 	}
 	
-	public void first() {
+	public void settings_introduction() {
 		
 		label_categories.setFont(new Font("Serif", Font.PLAIN, 20));
 		fpanel.setLayout(new BoxLayout(fpanel,BoxLayout.Y_AXIS));
@@ -170,31 +188,33 @@ public class Frame extends JFrame implements ActionListener{
 		fpanel.add(controls_categories);
 		text_intro.add(label_categories);
 		
+		
 		for(int i = 0 ; i < acategories.size() ; i++) {
-			acategories.get(i).categories_panel();
+			acategories.get(i).categories_panel_admin();
 			fpanel.add(acategories.get(i).pcategory);
 			acategories.get(i).bcancel.addActionListener(this);
 			acategories.get(i).bcategory.addActionListener(this);
 			for(int j = 0 ; j < acategories.get(i).size_products() ; j++) {
-				acategories.get(i).getProduct(j).products_panel();
+				acategories.get(i).getProduct(j).products_panel_admin();
 				acategories.get(i).getProduct(j).bcancel.addActionListener(this);
 				acategories.get(i).getProduct(j).details.addActionListener(this);
 				acategories.get(i).getProduct(j).add_stock.addActionListener(this);
-				//search_bar_categories.addItem(acategories.get(i).getProduct(j).getName());
 			}
 		}
 		
 		controls_categories.add(new_category);
 		controls_categories.add(Box.createHorizontalGlue());
 		controls_categories.add(search_bar_categories);
+		SwingUtilities.updateComponentTreeUI(this);
 		this.getContentPane().add(scategories);
 		search_bar_categories.addItem("--Search a product--");
+		
 		for(int i = 0 ; i < acategories.size() ; i++) {
 			for(int j = 0 ; j < acategories.get(i).size_products() ; j++) {
 				search_bar_categories.addItem(acategories.get(i).getProduct(j).getName());
 			}
 		}
-		SwingUtilities.updateComponentTreeUI(this);
+		
 	}
 
 	@Override
@@ -208,6 +228,7 @@ public class Frame extends JFrame implements ActionListener{
 			if((product != null) && (product.length() > 0) && (product.charAt(0) != ' ')) {
 				if(check_products(product) == false) {
 					acategories.get(selected_category).add_product(product);
+					acategories.get(selected_category).getProduct(acategories.get(selected_category).size_products() - 1).products_panel_admin();
 					fpanel.add(acategories.get(selected_category).get_panel_at(acategories.get(selected_category).size_products() - 1));
 					acategories.get(selected_category).get_cancel_button(acategories.get(selected_category).size_products() - 1).addActionListener(this);
 					acategories.get(selected_category).get_stock_button(acategories.get(selected_category).size_products() - 1).addActionListener(this);
@@ -280,7 +301,6 @@ public class Frame extends JFrame implements ActionListener{
 				SwingUtilities.updateComponentTreeUI(this);
 			}
 			if(e.getSource() == acategories.get(i).bcancel) {
-				System.out.println("DAAA");
 				for(int j = 0 ; j < acategories.get(i).size_products() ; j++) {
 					search_bar_categories.removeItem(acategories.get(i).getProduct(j).getName());
 				}
@@ -319,6 +339,7 @@ public class Frame extends JFrame implements ActionListener{
 		if((category != null) && (category.length() > 0) && (category.charAt(0) != ' ')) {
 			if(check_categoeies(category) == false) {
 				acategories.add(new Categories(category));
+				acategories.get(acategories.size() - 1).categories_panel_admin();
 				fpanel.add(acategories.get(acategories.size() - 1).pcategory);
 				acategories.get(acategories.size() - 1).bcancel.addActionListener(this);
 				acategories.get(acategories.size() - 1).bcancel.setFocusable(false);;
@@ -334,7 +355,6 @@ public class Frame extends JFrame implements ActionListener{
 		fpanel.removeAll();
 		search_bar_products.addItem("--Search a product--");
 		text_intro_products.add(back,BorderLayout.WEST);
-		//label_products.add(Box.createHorizontalGlue());
 		text_intro_products.add(label_products,BorderLayout.CENTER);
 		label_products.setText("Categories->" + acategories.get(selected_category).getName());
 		fpanel.add(text_intro_products);
@@ -343,7 +363,6 @@ public class Frame extends JFrame implements ActionListener{
 		for(int i = 0 ; i < acategories.get(selected_category).size_products() ; i++) {
 			fpanel.add(acategories.get(selected_category).get_panel_at(i));
 			search_bar_products.addItem(acategories.get(selected_category).getProduct(i).getName());
-			//System.out.println(acategories.get(selected_category).getProduct(i).getName());
 		}
 		
 		SwingUtilities.updateComponentTreeUI(this);
@@ -367,10 +386,6 @@ public class Frame extends JFrame implements ActionListener{
 			}
 		}
 		return false;
-	}
-	
-	public void windowClosing(WindowEvent e) {
-		System.out.println("DAAA");
 	}
 	
 }

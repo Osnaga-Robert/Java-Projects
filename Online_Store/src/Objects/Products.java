@@ -1,4 +1,4 @@
-package Admin;
+package Objects;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -19,6 +19,7 @@ public class Products implements Serializable{
 	private int sales = 0;
 	transient public JLabel lproduct;
 	transient public JPanel pproduct;
+	transient public JButton add_char;
 	transient public JButton bcancel;
 	transient public JButton details;
 	transient public JButton add_stock;
@@ -29,12 +30,9 @@ public class Products implements Serializable{
 	public Products(String name) {
 		this.name = name;
 		this.count = count;
-		products_panel();
-		
-
 	}
 	
-	public void products_panel() {
+	public void products_panel_admin() {
 		this.pcontrols = new JPanel();
 		this.stock = new JLabel();
 		this.lproduct = new JLabel(name + "->" + this.count + "item(s) left");
@@ -59,6 +57,34 @@ public class Products implements Serializable{
 		this.pcontrols.add(add_stock);
 		this.pcontrols.add(bcancel);
 		
+		
+		this.pproduct.add(lproduct,BorderLayout.CENTER);
+		this.pproduct.add(pcontrols);
+	}
+	
+	public void products_panel_user() {
+		this.pcontrols = new JPanel();
+		this.stock = new JLabel();
+		this.lproduct = new JLabel(name);
+		this.pproduct = new JPanel();
+		this.details = new JButton("Details");
+		this.add_char = new JButton("Add to char");
+		
+		this.pproduct.setLayout(new GridLayout(1,2));
+		this.pproduct.setMaximumSize(new Dimension(800,30));
+		this.lproduct.setFont(new Font("Serif", Font.PLAIN, 14));
+		this.lproduct.setHorizontalAlignment(JLabel.CENTER);
+		this.pproduct.setBackground(Color.YELLOW);
+		this.pcontrols.setLayout(new GridLayout(1,4));
+		this.stock.setFont(new Font("Serif", Font.PLAIN, 14));
+		this.stock.setHorizontalAlignment(JLabel.CENTER);
+		this.pcontrols.setBackground(Color.YELLOW);
+		
+		setstock();
+		
+		this.pcontrols.add(stock);
+		this.pcontrols.add(details);
+		this.pcontrols.add(add_char);
 		
 		this.pproduct.add(lproduct,BorderLayout.CENTER);
 		this.pproduct.add(pcontrols);
