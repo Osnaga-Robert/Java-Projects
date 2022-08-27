@@ -34,7 +34,7 @@ public class Categories implements Serializable{
 		this.bcategory = new JButton(name);
 		this.pcategory.setLayout(new BorderLayout());
 		this.pcategory.add(this.bcategory,BorderLayout.CENTER);
-		this.pcategory.setMaximumSize(new Dimension(800,30));
+		this.pcategory.setMaximumSize(new Dimension(900,30));
 	}
 	
 	public String getName() {

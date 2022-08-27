@@ -1,6 +1,8 @@
 package Objects;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,6 +11,7 @@ import javax.security.auth.login.AppConfigurationEntry;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class Products implements Serializable{
 	transient SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -65,29 +68,40 @@ public class Products implements Serializable{
 	public void products_panel_user() {
 		this.pcontrols = new JPanel();
 		this.stock = new JLabel();
-		this.lproduct = new JLabel(name);
+		this.lproduct = new JLabel();
 		this.pproduct = new JPanel();
 		this.details = new JButton("Details");
-		this.add_char = new JButton("Add to char");
+		this.add_char = new JButton("Add-char");
 		
 		this.pproduct.setLayout(new GridLayout(1,2));
-		this.pproduct.setMaximumSize(new Dimension(800,30));
+		this.pproduct.setMaximumSize(new Dimension(900,30));
 		this.lproduct.setFont(new Font("Serif", Font.PLAIN, 14));
 		this.lproduct.setHorizontalAlignment(JLabel.CENTER);
+		this.lproduct.setText(this.name);
 		this.pproduct.setBackground(Color.YELLOW);
 		this.pcontrols.setLayout(new GridLayout(1,4));
 		this.stock.setFont(new Font("Serif", Font.PLAIN, 14));
 		this.stock.setHorizontalAlignment(JLabel.CENTER);
 		this.pcontrols.setBackground(Color.YELLOW);
 		
+//		ftext.addKeyListener(new KeyAdapter() {
+//			public void keyTyped(KeyEvent e) {
+//				char c = e.getKeyChar();
+//				if( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+//					e.consume();
+//				}
+//			}
+//		});
+
 		setstock();
 		
-		this.pcontrols.add(stock);
-		this.pcontrols.add(details);
-		this.pcontrols.add(add_char);
+		this.pcontrols.add(this.stock);
+		this.pcontrols.add(this.details);
+		this.pcontrols.add(this.add_char);
 		
-		this.pproduct.add(lproduct,BorderLayout.CENTER);
-		this.pproduct.add(pcontrols);
+		this.pproduct.add(this.lproduct);
+		this.pproduct.add(this.pcontrols);
+
 	}
 	
 	public String getName() {
