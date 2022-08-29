@@ -55,6 +55,7 @@ public class Products implements Serializable{
 		
 		setstock();
 		
+		lproduct.setText(name + "->" + this.count + "item(s) left");
 		this.pcontrols.add(stock);
 		this.pcontrols.add(details);
 		this.pcontrols.add(add_stock);
@@ -83,18 +84,9 @@ public class Products implements Serializable{
 		this.stock.setFont(new Font("Serif", Font.PLAIN, 14));
 		this.stock.setHorizontalAlignment(JLabel.CENTER);
 		this.pcontrols.setBackground(Color.YELLOW);
-		
-//		ftext.addKeyListener(new KeyAdapter() {
-//			public void keyTyped(KeyEvent e) {
-//				char c = e.getKeyChar();
-//				if( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
-//					e.consume();
-//				}
-//			}
-//		});
 
 		setstock();
-		
+		lproduct.setText(name);
 		this.pcontrols.add(this.stock);
 		this.pcontrols.add(this.details);
 		this.pcontrols.add(this.add_char);
@@ -122,6 +114,10 @@ public class Products implements Serializable{
 	
 	public void addCount(int addcount) {
 		this.count += addcount;
+	}
+	
+	public void setCount(int setcount) {
+		this.count = setcount;
 	}
 	
 	public int getSales () {
@@ -158,7 +154,6 @@ public class Products implements Serializable{
 			stock.setText("In stock");
 			stock.setForeground(Color.GREEN);
 		}
-		lproduct.setText(name + "->" + this.count + "item(s) left");
 	}
 	
 }
