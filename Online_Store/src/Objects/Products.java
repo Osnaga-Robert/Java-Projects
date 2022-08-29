@@ -20,12 +20,14 @@ public class Products implements Serializable{
 	private String dstock ;
 	private String dseeDate ;
 	private int sales = 0;
+	private String sdetails;
 	transient public JLabel lproduct;
 	transient public JPanel pproduct;
 	transient public JButton add_char;
 	transient public JButton bcancel;
 	transient public JButton details;
 	transient public JButton add_stock;
+	transient public JButton add_description;
 	transient public JPanel pcontrols = new JPanel();
 	transient public JLabel stock = new JLabel();
 	transient public Date date = new Date();
@@ -43,6 +45,7 @@ public class Products implements Serializable{
 		this.bcancel = new JButton("X");
 		this.details = new JButton("Details");
 		this.add_stock = new JButton("Stock-in");
+		this.add_description = new JButton("Add description");
 		this.pproduct.setLayout(new GridLayout(1,2));
 		this.pproduct.setMaximumSize(new Dimension(800,30));
 		this.lproduct.setFont(new Font("Serif", Font.PLAIN, 14));
@@ -52,6 +55,7 @@ public class Products implements Serializable{
 		this.stock.setFont(new Font("Serif", Font.PLAIN, 14));
 		this.stock.setHorizontalAlignment(JLabel.CENTER);
 		this.pcontrols.setBackground(Color.YELLOW);
+		this.sdetails = "No description yet";
 		
 		setstock();
 		
@@ -154,6 +158,14 @@ public class Products implements Serializable{
 			stock.setText("In stock");
 			stock.setForeground(Color.GREEN);
 		}
+	}
+
+	public String getSdetails() {
+		return sdetails;
+	}
+
+	public void setSdetails(String sdetails) {
+		this.sdetails = sdetails;
 	}
 	
 }

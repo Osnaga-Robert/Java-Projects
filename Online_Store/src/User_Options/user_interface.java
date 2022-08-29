@@ -77,9 +77,7 @@ public class user_interface extends JFrame implements ActionListener{
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(900,900);
-		//this.setResizable(false);
 		this.setLocationRelativeTo(null);
-		this.add(fpanel);
 	}
 	
 	public void load_info() {
@@ -107,7 +105,8 @@ public class user_interface extends JFrame implements ActionListener{
 		
 		ctlabel.setFont(new Font("Serif", Font.PLAIN, 20));
 		ctpanel.setMaximumSize(new Dimension(900,30));
-		
+		SwingUtilities.updateComponentTreeUI(this);
+		this.getContentPane().add(scategories);
 		ccontrols.setLayout(new BoxLayout(ccontrols,BoxLayout.LINE_AXIS));
 		ccontrols.setMaximumSize(new Dimension(900,30));
 		ccontrols.add(cart);
@@ -204,7 +203,8 @@ public class user_interface extends JFrame implements ActionListener{
 		}
 		for(int i = 0 ; i < acategories.get(selected_category).size_products(); i++) {
 			if(e.getSource() == acategories.get(selected_category).getProduct(i).details) {
-				JOptionPane.showOptionDialog(null,"Name of product: "+ acategories.get(selected_category).getProduct(i).getName(),
+				JOptionPane.showOptionDialog(null,"Name of product: "+ acategories.get(selected_category).getProduct(i).getName() + "\n" +
+												  "Description: " + acategories.get(selected_category).getProduct(i).getSdetails(),
 						"Details", JOptionPane.DEFAULT_OPTION ,JOptionPane.INFORMATION_MESSAGE, null, null, null) ;
 			}
 			if(e.getSource() == acategories.get(selected_category).getProduct(i).add_char) {

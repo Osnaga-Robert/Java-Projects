@@ -33,6 +33,7 @@ public class Frame extends JFrame implements ActionListener{
 	JPanel test = new JPanel();
 	JPanel text_intro_products = new JPanel();
 	JPanel pup = new JPanel();
+	Object[] options = {"OK","Add description"};
 	
 	JLabel label_categories = new JLabel("Categories");
 	JLabel label_products = new JLabel("Products");
@@ -277,11 +278,19 @@ public class Frame extends JFrame implements ActionListener{
 					}
 				}
 				if (e.getSource() == acategories.get(selected_category).get_details_button(i)) {
-					 JOptionPane.showOptionDialog(null, "Stock: " + acategories.get(selected_category).getProduct(i).getCount() + "item(s) left \n"
+					 int a = JOptionPane.showOptionDialog(null, "Stock: " + acategories.get(selected_category).getProduct(i).getCount() + "item(s) left \n"
 					 											+ "Sales: " + acategories.get(selected_category).getProduct(i).getSales() + "item(s) sold \n"
+					 											+ "Description: " + acategories.get(selected_category).getProduct(i).getSdetails() + "\n"
 					 											+ "Last time adding stock: " + acategories.get(selected_category).getProduct(i).getDateStock() + " \n"
-					 											+ "Last time see details: " + acategories.get(selected_category).getProduct(i).getDatesee() + " \n","Details", JOptionPane.DEFAULT_OPTION ,JOptionPane.INFORMATION_MESSAGE, details, null, null) ;
+					 											+ "Last time see details: " + acategories.get(selected_category).getProduct(i).getDatesee() + " \n"
+					 											,"Details", JOptionPane.OK_OPTION ,JOptionPane.INFORMATION_MESSAGE, details, options, null) ;
 					 acategories.get(selected_category).getProduct(i).setDatesee();
+					 if(a == JOptionPane.NO_OPTION) {
+						 String description = JOptionPane.showInputDialog("Add description");
+						 if(description != null) {
+							 acategories.get(selected_category).getProduct(i).setSdetails(description);
+						 }
+					 }
 					}
 				}
 			if(e.getSource() == acategories.get(selected_category).get_cancel_button(i)) {
