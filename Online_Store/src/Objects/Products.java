@@ -46,15 +46,19 @@ public class Products implements Serializable{
 		this.details = new JButton("Details");
 		this.add_stock = new JButton("Stock-in");
 		this.add_description = new JButton("Add description");
+		this.bcancel.setFocusable(false);
+		this.details.setFocusable(false); 
+		this.add_stock.setFocusable(false);
+		this.add_description.setFocusable(false);
 		this.pproduct.setLayout(new GridLayout(1,2));
 		this.pproduct.setMaximumSize(new Dimension(800,30));
 		this.lproduct.setFont(new Font("Serif", Font.PLAIN, 14));
 		this.lproduct.setHorizontalAlignment(JLabel.CENTER);
-		this.pproduct.setBackground(Color.YELLOW);
+		this.pproduct.setBackground(new Color(180,207,236));
 		this.pcontrols.setLayout(new GridLayout(1,4));
 		this.stock.setFont(new Font("Serif", Font.PLAIN, 14));
 		this.stock.setHorizontalAlignment(JLabel.CENTER);
-		this.pcontrols.setBackground(Color.YELLOW);
+		this.pcontrols.setBackground(new Color(180,207,236));
 		if(this.sdetails == null)
 			this.sdetails = "No description yet";
 		
@@ -79,16 +83,18 @@ public class Products implements Serializable{
 		this.details = new JButton("Details");
 		this.add_char = new JButton("Add-char");
 		
+		this.details.setFocusable(false);
+		this.add_char.setFocusable(false);
 		this.pproduct.setLayout(new GridLayout(1,2));
 		this.pproduct.setMaximumSize(new Dimension(900,30));
 		this.lproduct.setFont(new Font("Serif", Font.PLAIN, 14));
 		this.lproduct.setHorizontalAlignment(JLabel.CENTER);
 		this.lproduct.setText(this.name);
-		this.pproduct.setBackground(Color.YELLOW);
+		this.pproduct.setBackground(new Color(180,207,236));
 		this.pcontrols.setLayout(new GridLayout(1,4));
 		this.stock.setFont(new Font("Serif", Font.PLAIN, 14));
 		this.stock.setHorizontalAlignment(JLabel.CENTER);
-		this.pcontrols.setBackground(Color.YELLOW);
+		this.pcontrols.setBackground(new Color(180,207,236));
 		if(this.sdetails == null)
 			this.sdetails = "No description yet";
 

@@ -22,7 +22,9 @@ public class Categories implements Serializable{
 	public void categories_panel_admin() {
 		this.pcategory = new JPanel();
 		this.bcancel = new JButton("X");
-		this.bcategory = new JButton(name);//+ " " + this.products.get(this.products.size() - 1).getCount() + "item(s) left");
+		this.bcategory = new JButton(name);
+		this.bcancel.setFocusable(false);
+		this.bcategory.setFocusable(false);
 		this.pcategory.setLayout(new BorderLayout());
 		this.pcategory.add(this.bcategory,BorderLayout.CENTER);
 		this.pcategory.add(this.bcancel,BorderLayout.EAST);
@@ -32,6 +34,7 @@ public class Categories implements Serializable{
 	public void categories_panel_user() {
 		this.pcategory = new JPanel();
 		this.bcategory = new JButton(name);
+		this.bcategory.setFocusable(false);
 		this.pcategory.setLayout(new BorderLayout());
 		this.pcategory.add(this.bcategory,BorderLayout.CENTER);
 		this.pcategory.setMaximumSize(new Dimension(900,30));

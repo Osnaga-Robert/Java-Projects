@@ -210,6 +210,13 @@ public class user_interface extends JFrame implements ActionListener{
 		newimg = image.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
 		iempty_cart = new ImageIcon(newimg);
 		
+		back1.setBackground(new Color(105,105,105));
+		back1.setForeground(Color.BLACK);
+		back1.setFocusable(false);
+		cart.setFocusable(false);
+		back.setFocusable(false);
+		sbutton.setFocusable(false);
+		back1.setBorderPainted(false);
 		fPanel.setLayout(new GridLayout(1,2));
 		fPanel.setMaximumSize(new Dimension(900,30));
 		fhpanel.setBackground(new Color(105,105,105));
