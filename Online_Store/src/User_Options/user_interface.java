@@ -5,18 +5,24 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.beans.IntrospectionException;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -64,6 +70,14 @@ public class user_interface extends JFrame implements ActionListener{
 	
 	ArrayList<Class_cart> acart = new ArrayList<Class_cart>();
 	
+	ImageIcon icart = new ImageIcon("Icons/Cart.png");
+	ImageIcon istock = new ImageIcon("Icons/Add_stock_img.png");
+	ImageIcon idetails = new ImageIcon("Icons/Details.png");
+	ImageIcon isubmit = new ImageIcon("Icons/Submit.png");
+	ImageIcon iempty_cart = new ImageIcon("Icons/Empty_cart.png");
+	Image image;
+	Image newimg;
+	
 	int selected_category = 0;
 	
 	public user_interface() {
@@ -78,6 +92,52 @@ public class user_interface extends JFrame implements ActionListener{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(900,900);
 		this.setLocationRelativeTo(null);
+		this.addWindowListener(new WindowListener() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				try {
+				FileOutputStream fos = new FileOutputStream("Savings/Save.ser");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				oos.writeObject(acategories);
+				oos.close();
+				fos.close();
+			}
+			catch(IOException ioe) {
+				ioe.printStackTrace();
+				return;
+			}
+			}
+			@Override
+			public void windowActivated(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void windowClosed(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void windowDeactivated(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void windowDeiconified(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void windowIconified(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+			
+			}
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 	
 	public void load_info() {
@@ -116,9 +176,6 @@ public class user_interface extends JFrame implements ActionListener{
 		cart.addActionListener(this);
 		cart.setFocusable(false);
 		category_page();
-		
-		//SwingUtilities.updateComponentTreeUI(this);
-		
 	}
 	
 	public void only_once_settings() {
@@ -142,6 +199,16 @@ public class user_interface extends JFrame implements ActionListener{
 				acategories.get(i).getProduct(j).add_char.addActionListener(this);
 			}
 		}
+		
+		image = istock.getImage();
+		newimg = image.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
+		istock = new ImageIcon(newimg);
+		image = idetails.getImage();
+		newimg = image.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
+		idetails = new ImageIcon(newimg);
+		image = iempty_cart.getImage();
+		newimg = image.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
+		iempty_cart = new ImageIcon(newimg);
 		
 		fPanel.setLayout(new GridLayout(1,2));
 		fPanel.setMaximumSize(new Dimension(900,30));
@@ -172,7 +239,6 @@ public class user_interface extends JFrame implements ActionListener{
 		search_bar_products.addActionListener(this);
 		fhpanel.add(ftext);
 		shpanel.add(stext);
-		
 		fPanel.add(fhpanel);
 		fPanel.add(shpanel);
 		
@@ -205,7 +271,7 @@ public class user_interface extends JFrame implements ActionListener{
 			if(e.getSource() == acategories.get(selected_category).getProduct(i).details) {
 				JOptionPane.showOptionDialog(null,"Name of product: "+ acategories.get(selected_category).getProduct(i).getName() + "\n" +
 												  "Description: " + acategories.get(selected_category).getProduct(i).getSdetails(),
-						"Details", JOptionPane.DEFAULT_OPTION ,JOptionPane.INFORMATION_MESSAGE, null, null, null) ;
+						"Details", JOptionPane.DEFAULT_OPTION ,JOptionPane.INFORMATION_MESSAGE, idetails, null, null) ;
 			}
 			if(e.getSource() == acategories.get(selected_category).getProduct(i).add_char) {
 				if(check_selected(selected_category,i) == true && acategories.get(selected_category).getProduct(i).getCount() != 0) {
@@ -214,9 +280,9 @@ public class user_interface extends JFrame implements ActionListener{
 					acart.get(acart.size() - 1).cancel.addActionListener(this);
 				}
 				else if(check_selected(selected_category, i) == false)
-					JOptionPane.showMessageDialog(null,"Your item is already in the cart");
+					JOptionPane.showMessageDialog(null, "Your item is already in the cart", "", 0, icart);
 				else if(acategories.get(selected_category).getProduct(i).getCount() == 0)
-					JOptionPane.showMessageDialog(null,"The item selected is not in stock");
+					JOptionPane.showMessageDialog(null, "The item selected is not in stock", "", 0, istock);
 				
 			}
 		}
@@ -247,8 +313,9 @@ public class user_interface extends JFrame implements ActionListener{
 			String nameString = (String) search_bar_products.getSelectedItem();
 			for(int i = 0 ; i < acategories.get(selected_category).size_products() ; i++) {
 				if(acategories.get(selected_category).getProduct(i).getName().equals(nameString)) {
-					JOptionPane.showOptionDialog(null,"Name of product: "+ acategories.get(selected_category).getProduct(i).getName(),
-							"Details", JOptionPane.DEFAULT_OPTION ,JOptionPane.INFORMATION_MESSAGE, null, null, null) ;
+					JOptionPane.showOptionDialog(null,"Name of product: "+ acategories.get(selected_category).getProduct(i).getName() + "\n" +
+							  "Description: " + acategories.get(selected_category).getProduct(i).getSdetails(),
+							  "Details", JOptionPane.DEFAULT_OPTION ,JOptionPane.INFORMATION_MESSAGE, idetails, null, null) ;
 					search_bar_products.setSelectedIndex(0);
 				}
 			}
@@ -298,22 +365,23 @@ public class user_interface extends JFrame implements ActionListener{
 	public void submit_button() {
 		int check = check_quantity();
 		if(acart.size() == 0)
-			JOptionPane.showMessageDialog(null, "Your cart is empty");
+			JOptionPane.showMessageDialog(null, "Your cart is empty", "", 0, iempty_cart);
 		else {
 			if(check == -1) {
 				for(int i = 0 ; i < acart.size() ; i++) {
 					int number = Integer.parseInt(acart.get(i).textField.getText());
 					int new_stock = acategories.get(acart.get(i).getSelected_category()).getProduct(acart.get(i).getPosition()).getCount() - number;
 					acategories.get(acart.get(i).getSelected_category()).getProduct(acart.get(i).getPosition()).setCount(new_stock);
+					acategories.get(acart.get(i).getSelected_category()).getProduct(acart.get(i).getPosition()).addSales(number);
 				}
-				JOptionPane.showMessageDialog(null,"Your items will be at you in a few days");
+				JOptionPane.showMessageDialog(null, "Your items will be at you in a few days", "", 0, isubmit);
 				acart.removeAll(acart);
 				fpanel.removeAll();
 				category_page();
 				SwingUtilities.updateComponentTreeUI(this);
 			}
 			else {
-				JOptionPane.showMessageDialog(null,"We dont have enough items in stock for "+ acart.get(check).getName());
+				JOptionPane.showMessageDialog(null, "We dont have enough items in stock for "+ acart.get(check).getName(), "", 0, istock);
 			}
 		}
 	}

@@ -55,7 +55,8 @@ public class Products implements Serializable{
 		this.stock.setFont(new Font("Serif", Font.PLAIN, 14));
 		this.stock.setHorizontalAlignment(JLabel.CENTER);
 		this.pcontrols.setBackground(Color.YELLOW);
-		this.sdetails = "No description yet";
+		if(this.sdetails == null)
+			this.sdetails = "No description yet";
 		
 		setstock();
 		
@@ -88,6 +89,8 @@ public class Products implements Serializable{
 		this.stock.setFont(new Font("Serif", Font.PLAIN, 14));
 		this.stock.setHorizontalAlignment(JLabel.CENTER);
 		this.pcontrols.setBackground(Color.YELLOW);
+		if(this.sdetails == null)
+			this.sdetails = "No description yet";
 
 		setstock();
 		lproduct.setText(name);
