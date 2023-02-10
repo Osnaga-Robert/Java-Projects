@@ -1,0 +1,166 @@
+{
+  "name" : "curs3",
+  "teacher_first_name": "Teacher_first_name2",
+  "teacher_second_name": "Teacher_second_name2",
+  "points" : "4",
+  "strategy": "Total",
+  "Assistents":[
+    {
+      "ID": "321CC",
+      "Assistant_first_name": "Assistant_first_name4",
+      "Assistant_second_name": "Assistant_second_name4"
+    },
+    {
+      "ID": "322CC",
+      "Assistant_first_name": "Assistant_first_name4",
+      "Assistant_second_name": "Assistant_second_name4"
+    },
+    {
+      "ID": "323CC",
+      "Assistant_first_name": "Assistant_first_name5",
+      "Assistant_second_name": "Assistant_second_name5"
+    },
+    {
+      "ID": "324CC",
+      "Assistant_first_name": "Assistant_first_name5",
+      "Assistant_second_name": "Assistant_second_name5"
+    }
+  ],
+  "Students": [
+    {
+      "ID": "321CC",
+      "Student_first_name": "Student_first_name1",
+      "Student_last_name": "Student_last_name1",
+      "Student_father_first_name": "Father_first_name1",
+      "Student_father_last_name": "Father_last_name1",
+      "Student_mother_first_name": "Mohter_first_name1",
+      "Student_mother_last_name": "Mother_last_name1"
+    },
+    {
+      "ID": "321CC",
+      "Student_first_name": "Student_first_name2",
+      "Student_last_name": "Student_last_name2",
+      "Student_father_first_name": "Father_first_name2",
+      "Student_father_last_name": "Father_last_name2",
+      "Student_mother_first_name": "Mohter_first_name2",
+      "Student_mother_last_name": "Mother_last_name2"
+    },
+    {
+      "ID": "323CC",
+      "Student_first_name": "Student_first_name3",
+      "Student_last_name": "Student_last_name3",
+      "Student_father_first_name": "Father_first_name3",
+      "Student_father_last_name": "Father_last_name3",
+      "Student_mother_first_name": "Mohter_first_name3",
+      "Student_mother_last_name": "Mother_last_name3"
+    },
+    {
+      "ID": "322CC",
+      "Student_first_name": "Student_first_name4",
+      "Student_last_name": "Student_last_name4",
+      "Student_father_first_name": "Father_first_name4",
+      "Student_father_last_name": "Father_last_name4",
+      "Student_mother_first_name": "Mohter_first_name4",
+      "Student_mother_last_name": "Mother_last_name4"
+    },
+    {
+      "ID": "324CC",
+      "Student_first_name": "Student_first_name5",
+      "Student_last_name": "Student_last_name5",
+      "Student_father_first_name": "Father_first_name5",
+      "Student_father_last_name": "Father_last_name5",
+      "Student_mother_first_name": "Mohter_first_name5",
+      "Student_mother_last_name": "Mother_last_name5"
+    },
+    {
+      "ID": "322CC",
+      "Student_first_name": "Student_first_name6",
+      "Student_last_name": "Student_last_name6",
+      "Student_father_first_name": "Father_first_name6",
+      "Student_father_last_name": "Father_last_name6",
+      "Student_mother_first_name": "Mohter_first_name6",
+      "Student_mother_last_name": "Mother_last_name6"
+    },
+    {
+      "ID": "323CC",
+      "Student_first_name": "Student_first_name7",
+      "Student_last_name": "Student_last_name7",
+      "Student_father_first_name": "Father_first_name7",
+      "Student_father_last_name": "Father_last_name7",
+      "Student_mother_first_name": "Mohter_first_name7",
+      "Student_mother_last_name": "Mother_last_name7"
+    }
+  ],
+  "Grades" :[
+    {
+      "Student_first_name":"Student_first_name1" ,
+      "Student_last_name":"Student_last_name1" ,
+      "Partial_score":" 1.4",
+      "Exam_score": "1.0"
+    },
+    {
+      "Student_first_name":"Student_first_name2" ,
+      "Student_last_name":"Student_last_name2" ,
+      "Partial_score": "3.3",
+      "Exam_score": "4.9"
+    },
+    {
+      "Student_first_name":"Student_first_name3" ,
+      "Student_last_name":"Student_last_name3" ,
+      "Partial_score": "3.5",
+      "Exam_score": "4.3"
+    }
+  ],
+  "Grades_Assistant":[
+    {
+      "Assistant_first_name": "Assistant_first_name4",
+      "Assistant_second_name": "Assistant_second_name4",
+      "Student_first_name": "Student_first_name4",
+      "Student_last_name": "Student_last_name4",
+      "Grade": "2.4"
+    },
+    {
+      "Assistant_first_name": "Assistant_first_name5",
+      "Assistant_second_name": "Assistant_second_name5",
+      "Student_first_name": "Student_first_name5",
+      "Student_last_name": "Student_last_name5",
+      "Grade": "3.2"
+    },
+    {
+      "Assistant_first_name": "Assistant_first_name4",
+      "Assistant_second_name": "Assistant_second_name4",
+      "Student_first_name": "Student_first_name6",
+      "Student_last_name": "Student_last_name6",
+      "Grade": "1.3"
+    },
+    {
+      "Assistant_first_name": "Assistant_first_name5",
+      "Assistant_second_name": "Assistant_second_name5",
+      "Student_first_name": "Student_first_name7",
+      "Student_last_name": "Student_last_name7",
+      "Grade": "4.0"
+    }
+  ],
+  "Grades_teacher":[
+    {
+      "Student_first_name": "Student_first_name4",
+      "Student_last_name": "Student_last_name4",
+      "Grade": "2.3"
+    },
+    {
+      "Student_first_name": "Student_first_name5",
+      "Student_last_name": "Student_last_name5",
+      "Grade": "3.5"
+    },
+    {
+      "Student_first_name": "Student_first_name6",
+      "Student_last_name": "Student_last_name6",
+      "Grade": "4.6"
+    },
+    {
+      "Student_first_name": "Student_first_name7",
+      "Student_last_name": "Student_last_name7",
+      "Grade": "5.0"
+    }
+  ]
+}
